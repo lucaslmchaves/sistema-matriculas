@@ -1,0 +1,14 @@
+# Ferramentas de IDE / editor
+.claude/
+.vscode/
+.idea/
+*.iml
+
+# Java / Maven (vai ser usado a partir da Sprint 2)
+target/
+*.class
+*.jar
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
