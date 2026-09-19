@@ -4,6 +4,11 @@ Trabalho da disciplina Laboratório de Desenvolvimento de Software.
 O projeto consiste em modelar e implementar um
 sistema de matrículas para uma universidade, dividido em sprints semanais.
 
+## Integrantes
+
+- Lucas Lima Magalhães Lafetá Chaves
+- Sérgio Izaías Parreiras Junior
+
 ## Descrição do sistema
 
 A secretaria da universidade cadastra o currículo de cada semestre e mantém as
