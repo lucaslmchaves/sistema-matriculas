@@ -86,6 +86,10 @@ confirme ou cancele as disciplinas do semestre.
 Como sistema de cobrança, quero ser notificado sempre que um aluno se
 matricula em uma disciplina, para gerar a cobrança correspondente.
 
+## Diagrama de Classes
+
+![Diagrama de Classes do Sistema de Matrículas](docs/diagramas/sprint2-diagrama-classes.png)
+
 ## Entregas por sprint
 
 - **Sprint 1** — diagrama de caso de uso e histórias de usuário. 
