@@ -11,6 +11,8 @@ public class Matricula {
     private TipoMatricula tipo;
     private StatusMatricula status;
     private List<Matricula> matriculas;
+    private Aluno aluno;
+    private Disciplina disciplina;
 
     public boolean cancelar() {
         // TODO: implementar
