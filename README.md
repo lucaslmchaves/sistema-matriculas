@@ -124,8 +124,12 @@ Precisa do Docker Desktop aberto. Na primeira vez o build baixa as imagens, ent�
 docker compose up --build
 ```
 
-- Tela: http://localhost:8501
-- API: http://localhost:8080/api/saude
+- Tela: http://localhost:18501
+- API: http://localhost:18080/api/saude
+
+Se alguma dessas portas já estiver em uso, dá para trocar sem editar arquivos. Por
+exemplo, no PowerShell: `$env:PORTA_TELA=19000; $env:PORTA_API=19001; docker compose up --build`
+(e no Linux/macOS: `PORTA_TELA=19000 PORTA_API=19001 docker compose up --build`).
 
 O login da secretaria é `secretaria` / `admin123`. Na aba **Dados** do painel dela
 dá para popular o sistema e testar as regras:

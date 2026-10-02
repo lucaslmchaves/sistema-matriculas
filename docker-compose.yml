@@ -2,7 +2,7 @@ services:
   api:
     build: ./src/back
     ports:
-      - "127.0.0.1:8080:8080"
+      - "127.0.0.1:${PORTA_API:-18080}:8080"
     volumes:
       - dados:/app/dados
     healthcheck:
@@ -14,7 +14,7 @@ services:
   front:
     build: ./src/front
     ports:
-      - "8501:8501"
+      - "${PORTA_TELA:-18501}:8501"
     environment:
       API_URL: http://api:8080
     depends_on:
