@@ -29,7 +29,7 @@ acessa o sistema com login e senha.
 
 ## Diagrama de Caso de Uso
 
-![Diagrama de Caso de Uso do Sistema de Matrículas](docs/diagramas/sprint1-caso-de-uso.png)
+![Diagrama de Caso de Uso do Sistema de Matrículas](docs/diagramas/sprint3-caso-de-uso.png)
 
 ### Atores
 
@@ -88,7 +88,7 @@ matricula em uma disciplina, para gerar a cobrança correspondente.
 
 ## Diagrama de Classes
 
-![Diagrama de Classes do Sistema de Matrículas](docs/diagramas/sprint2-diagrama-classes.png)
+![Diagrama de Classes do Sistema de Matrículas](docs/diagramas/sprint3-diagrama-classes.png)
 
 ## Entregas por sprint
 
