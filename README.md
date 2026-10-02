@@ -95,3 +95,77 @@ matricula em uma disciplina, para gerar a cobrança correspondente.
 - **Sprint 1** — diagrama de caso de uso e histórias de usuário. 
 - **Sprint 2** — diagrama de classes e projeto Java com stub dos métodos.
 - **Sprint 3** — protótipo funcional, com interface e persistência em arquivo.
+
+## Estrutura do projeto
+
+```
+docker-compose.yml        sobe a API e a tela com um comando
+docs/diagramas/           diagramas UML
+src/
+  back/                   API em Java
+    matriculas/           código (models, services, enums, interfaces,
+                          persistencia, cli, web)
+    tests/                testes em Java puro
+    Dockerfile
+  front/                  tela em Python (Streamlit)
+    app.py, telas/        código da interface
+    assets/               símbolo da PUC Minas
+    Dockerfile
+```
+
+## Como executar
+
+### Com Docker
+
+Precisa do Docker Desktop aberto. Na primeira vez o build baixa as imagens, então
+é preciso internet; depois disso roda offline.
+
+```bash
+docker compose up --build
+```
+
+- Tela: http://localhost:8501
+- API: http://localhost:8080/api/saude
+
+O login da secretaria é `secretaria` / `admin123`. Na aba **Dados** do painel dela
+há o botão "Carregar dados de exemplo", que cria um curso, quatro disciplinas já
+no período (ainda fechado) e estes usuários, todos com senha `1234`:
+
+- professores: `ana` e `carlos`
+- alunos: `aluno1` a `aluno5`
+
+Na mesma aba há o botão **Baixar planilha (.xlsx)**, que baixa pelo navegador (pasta
+Downloads) uma planilha formatada, com uma aba para cada tabela e sem as senhas. Os dados ficam
+num volume do Docker e continuam depois de parar os containers.
+
+```bash
+docker compose down
+```
+
+Para apagar também os dados: `docker compose down -v`.
+
+### Sem Docker (terminal)
+
+Precisa de um JDK (testado com o 25). Compilando tudo (código e testes) para a pasta `out`:
+
+```powershell
+$arquivos = Get-ChildItem -Recurse -Filter *.java src\back | ForEach-Object FullName
+javac -encoding UTF-8 -d out $arquivos
+```
+
+ou, em Linux/macOS/Git Bash:
+
+```bash
+javac -encoding UTF-8 -d out $(find src/back -name "*.java")
+```
+
+Depois:
+
+```bash
+java -cp out matriculas.Main           # interface de linha de comando
+java -cp out matriculas.MainWeb        # só a API, na porta 8080
+java -cp out matriculas.ExecutarTestes # testes
+```
+
+Fora do Docker os dados são gravados na pasta `dados/`, dentro do diretório onde o
+comando foi executado.
