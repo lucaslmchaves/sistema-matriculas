@@ -84,7 +84,7 @@ public class ServidorWeb {
         rota("/api/aluno/matriculas", new AlunoMatriculasHandler(gerenciadorSessao, servicoMatricula, servicoCadastro, periodo, persistencia));
         rota("/api/professor/disciplinas", professor);
         rota("/api/professor/alunos", professor);
-        rota("/api/exemplo", new ExemploHandler(gerenciadorSessao, servicoCadastro, periodo, persistencia));
+        rota("/api/exemplo", new ExemploHandler(gerenciadorSessao, servicoCadastro, servicoMatricula, periodo, persistencia));
         rota("/api/exportar", new ExportarHandler(gerenciadorSessao, servicoCadastro, periodo));
     }
 

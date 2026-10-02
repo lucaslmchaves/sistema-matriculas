@@ -130,9 +130,17 @@ class ApiCliente:
 
     # --- dados de exemplo e planilha (secretaria) ---
 
-    def carregar_exemplo(self):
-        """Cria os dados de demonstração (só funciona com o sistema vazio)."""
-        return self._requisitar("POST", "/api/exemplo")
+    def carregar_exemplo(self, conjunto="basico"):
+        """Cria os cadastros de demonstração, "basico" ou "completo" (só funciona com o sistema vazio)."""
+        return self._requisitar("POST", "/api/exemplo", dados={"conjunto": conjunto})
+
+    def gerar_matriculas_exemplo(self):
+        """Matricula os alunos existentes nas disciplinas do período (exige o período aberto)."""
+        return self._requisitar("POST", "/api/exemplo/matriculas")
+
+    def lotar_disciplina_exemplo(self, disciplina):
+        """Cria alunos e os matricula até a disciplina ficar sem vagas."""
+        return self._requisitar("POST", "/api/exemplo/lotacao", dados={"disciplina": disciplina})
 
     def exportar_planilha(self):
         """Baixa a planilha .xlsx com os dados do sistema; devolve os bytes do arquivo."""

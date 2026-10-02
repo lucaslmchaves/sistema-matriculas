@@ -128,11 +128,19 @@ docker compose up --build
 - API: http://localhost:8080/api/saude
 
 O login da secretaria é `secretaria` / `admin123`. Na aba **Dados** do painel dela
-há o botão "Carregar dados de exemplo", que cria um curso, quatro disciplinas já
-no período (ainda fechado) e estes usuários, todos com senha `1234`:
+dá para popular o sistema e testar as regras:
 
-- professores: `ana` e `carlos`
-- alunos: `aluno1` a `aluno5`
+- **Carregar dados de exemplo** (só com o sistema vazio), em dois tamanhos. O básico
+  cria 1 curso, 2 professores (`ana` e `carlos`), 5 alunos (`aluno1` a `aluno5`) e 4
+  disciplinas; o completo, 2 cursos, 4 professores (mais `beatriz` e `diego`), 20
+  alunos e 8 disciplinas. As disciplinas já entram no período, que continua fechado,
+  e todos os usuários têm senha `1234`.
+- **Gerar matrículas de exemplo** (com o período aberto): matricula os alunos em
+  quantidades diferentes por disciplina, respeitando o limite de 4 obrigatórias e 2
+  optativas. Ao encerrar o período, umas disciplinas são confirmadas e outras
+  canceladas.
+- **Lotar disciplina**: cria alunos (`lotacao1`, `lotacao2`...) até a disciplina
+  chegar a 60, para testar o bloqueio de novas matrículas.
 
 Na mesma aba há o botão **Baixar planilha (.xlsx)**, que baixa pelo navegador (pasta
 Downloads) uma planilha formatada, com uma aba para cada tabela e sem as senhas. Os dados ficam

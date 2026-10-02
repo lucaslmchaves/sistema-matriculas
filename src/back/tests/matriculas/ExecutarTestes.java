@@ -8,6 +8,7 @@ import matriculas.persistencia.PersistenciaTest;
 import matriculas.services.ServicoCadastroTest;
 import matriculas.services.ServicoMatriculaTest;
 import matriculas.services.SistemaCobrancaExternoTest;
+import matriculas.web.DadosDemonstracaoMatriculasTest;
 import matriculas.web.DadosDemonstracaoTest;
 import matriculas.web.ExportadorPlanilhaTest;
 import matriculas.web.JsonTest;
@@ -30,6 +31,7 @@ public class ExecutarTestes {
         executarTeste("PersistenciaTest", PersistenciaTest::executar);
         executarTeste("JsonTest", JsonTest::executar);
         executarTeste("DadosDemonstracaoTest", DadosDemonstracaoTest::executar);
+        executarTeste("DadosDemonstracaoMatriculasTest", DadosDemonstracaoMatriculasTest::executar);
         executarTeste("ExportadorPlanilhaTest", ExportadorPlanilhaTest::executar);
 
         System.out.println("==================================================");

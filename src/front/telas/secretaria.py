@@ -149,13 +149,27 @@ def _mensagem_encerramento(resultado):
     return "Período encerrado. Todas as disciplinas foram confirmadas."
 
 
+CONJUNTOS_EXEMPLO = {
+    "basico": "Básico: 1 curso, 2 professores, 5 alunos e 4 disciplinas",
+    "completo": "Completo: 2 cursos, 4 professores, 20 alunos e 8 disciplinas",
+}
+
+
 def _aba_dados(api):
-    """Dados de exemplo e exportação. O botão de download entrega a planilha pelo navegador (pasta Downloads)."""
+    """Dados de exemplo para testar o sistema e exportação. O download entrega a planilha pelo navegador (pasta Downloads)."""
+    _secao_cadastros_exemplo(api)
+    _secao_simulacao(api)
+    _secao_exportacao(api)
+
+
+def _secao_cadastros_exemplo(api):
+    """Carrega um conjunto de cadastros (só com o sistema vazio) e mostra os logins criados."""
     st.markdown("#### Dados de exemplo")
-    st.write("Cria 1 curso, 2 professores, 5 alunos e 4 disciplinas já adicionadas ao período (que continua fechado).")
+    st.write("Cadastra cursos, professores, alunos e disciplinas já adicionadas ao período (que continua fechado).")
+    conjunto = st.radio("Conjunto", list(CONJUNTOS_EXEMPLO), format_func=CONJUNTOS_EXEMPLO.get, key="exemplo_conjunto")
     if st.button("Carregar dados de exemplo", key="btn_exemplo"):
         executar(
-            api.carregar_exemplo,
+            lambda: api.carregar_exemplo(conjunto),
             "Dados de exemplo carregados.",
             ao_concluir=lambda resultado: st.session_state.update(logins_exemplo=resultado),
         )
@@ -165,6 +179,38 @@ def _aba_dados(api):
         st.markdown("**Logins criados**")
         st.code("\n".join(logins["professores"] + logins["alunos"]), language=None)
 
+
+def _secao_simulacao(api):
+    """Botões que simulam o uso: matrículas automáticas e uma disciplina lotada (período aberto)."""
+    st.markdown("#### Simular matrículas")
+    st.write(
+        "Funciona com o período aberto (aba Período de Matrículas). Respeita todas as regras: "
+        "limite de 4 obrigatórias e 2 optativas por aluno e de 60 alunos por disciplina."
+    )
+
+    if st.button("Gerar matrículas de exemplo", key="btn_gerar_matriculas"):
+        executar(
+            api.gerar_matriculas_exemplo,
+            lambda resultado: f"{resultado['matriculas']} matrículas de exemplo criadas. "
+            "Ao encerrar o período, as disciplinas com menos de 3 alunos serão canceladas.",
+        )
+
+    periodo = buscar(api.obter_periodo)
+    ofertadas = [d["nome"] for d in (periodo["disciplinas"] if periodo else []) if d["status"] != "CANCELADA"]
+    if not ofertadas:
+        st.info("Para lotar uma disciplina, coloque disciplinas no período.")
+        return
+    escolhida = st.selectbox("Disciplina a lotar", ofertadas, key="lotacao_disciplina")
+    if st.button("Lotar disciplina (60 vagas)", key="btn_lotar"):
+        executar(
+            lambda: api.lotar_disciplina_exemplo(escolhida),
+            lambda resultado: f"Disciplina '{escolhida}' lotada: {resultado['alunosCriados']} alunos criados "
+            "(logins lotacao1, lotacao2..., senha 1234). Tente matricular outro aluno nela.",
+        )
+
+
+def _secao_exportacao(api):
+    """Planilha .xlsx com os dados do sistema, baixada pelo navegador."""
     st.markdown("#### Exportar dados")
     st.write("Planilha do Excel (.xlsx) com uma aba para cada tabela: cursos, professores, alunos, disciplinas, matrículas e período.")
     planilha = buscar(api.exportar_planilha)
