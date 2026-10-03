@@ -1,0 +1,8 @@
+version: '3.8'
+
+services:
+  app-matriculas:
+    build: .
+    container_name: sistema_matriculas
+    stdin_open: true  
+    tty: true         
