@@ -42,49 +42,62 @@ acessa o sistema com login e senha.
 
 ## Histórias de Usuário
 
-**Efetuar matrícula em disciplina**
-Como aluno, quero me matricular em disciplinas durante o período de
-matrículas, para garantir minha vaga no semestre.
+### Aluno
+
+#### Efetuar matrícula em disciplina
+
+> **Como** aluno, **quero** me matricular em disciplinas durante o período de matrículas, **para** garantir minha vaga no semestre.
+
 - O aluno pode se matricular em até 4 disciplinas obrigatórias e 2 optativas.
 - Se a disciplina já tiver 60 alunos, a matrícula não é permitida.
 - Ao confirmar a matrícula, o sistema de cobrança é notificado.
 
-**Cancelar matrícula em disciplina**
-Como aluno, quero cancelar uma matrícula feita anteriormente, para desistir
-de uma disciplina ainda dentro do período de matrículas.
-- Só é possível cancelar matrículas dentro do período de matrículas aberto.
+#### Cancelar matrícula em disciplina
 
-**Consultar alunos matriculados**
-Como professor, quero consultar a lista de alunos matriculados em uma
-disciplina que leciono, para saber quem vai cursá-la no semestre.
+> **Como** aluno, **quero** cancelar uma matrícula feita anteriormente, **para** desistir de uma disciplina ainda dentro do período de matrículas.
 
-**Cadastrar curso**
-Como secretaria, quero cadastrar os cursos oferecidos pela universidade, para
-montar o currículo do semestre.
+- Só é possível cancelar matrículas com o período de matrículas aberto.
+
+### Professor
+
+#### Consultar alunos matriculados
+
+> **Como** professor, **quero** consultar a lista de alunos matriculados em uma disciplina que leciono, **para** saber quem vai cursá-la no semestre.
+
+### Secretaria
+
+#### Cadastrar curso
+
+> **Como** secretaria, **quero** cadastrar os cursos oferecidos pela universidade, **para** montar o currículo do semestre.
+
 - Cada curso tem nome e um número de créditos.
 
-**Cadastrar disciplina**
-Como secretaria, quero cadastrar as disciplinas de cada curso, para compor o
-currículo do semestre.
+#### Cadastrar disciplina
+
+> **Como** secretaria, **quero** cadastrar as disciplinas de cada curso, **para** compor o currículo do semestre.
+
 - Cada disciplina pertence a um curso, e um curso pode ter várias disciplinas.
 
-**Cadastrar professor**
-Como secretaria, quero cadastrar os professores disponíveis para lecionar,
-para associá-los às disciplinas do semestre.
+#### Cadastrar professor
 
-**Cadastrar aluno**
-Como secretaria, quero cadastrar os alunos da universidade, para que eles
-possam se matricular nas disciplinas.
+> **Como** secretaria, **quero** cadastrar os professores disponíveis para lecionar, **para** associá-los às disciplinas do semestre.
 
-**Encerrar período de matrículas**
-Como secretaria, quero encerrar o período de matrículas, para que o sistema
-confirme ou cancele as disciplinas do semestre.
+#### Cadastrar aluno
+
+> **Como** secretaria, **quero** cadastrar os alunos da universidade, **para** que eles possam se matricular nas disciplinas.
+
+#### Encerrar período de matrículas
+
+> **Como** secretaria, **quero** encerrar o período de matrículas, **para** que o sistema confirme ou cancele as disciplinas do semestre.
+
 - Disciplinas com menos de 3 alunos inscritos são canceladas automaticamente.
 - Disciplinas com 3 ou mais alunos ficam confirmadas para o semestre.
 
-**Notificar sistema de cobrança**
-Como sistema de cobrança, quero ser notificado sempre que um aluno se
-matricula em uma disciplina, para gerar a cobrança correspondente.
+### Sistema de Cobrança
+
+#### Notificar sistema de cobrança
+
+> **Como** sistema de cobrança, **quero** ser notificado sempre que um aluno se matricula em uma disciplina, **para** gerar a cobrança correspondente.
 
 ## Diagrama de Classes
 
