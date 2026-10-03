@@ -1,0 +1,25 @@
+services:
+  api:
+    build: ./src/back
+    ports:
+      - "127.0.0.1:${PORTA_API:-18080}:8080"
+    volumes:
+      - dados:/app/dados
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/127.0.0.1/8080'"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  front:
+    build: ./src/front
+    ports:
+      - "${PORTA_TELA:-18501}:8501"
+    environment:
+      API_URL: http://api:8080
+    depends_on:
+      api:
+        condition: service_healthy
+
+volumes:
+  dados:
