@@ -2,7 +2,7 @@
 
 # Sistema de Matrículas Universitário
 
-<img src="docs/img/ghost.gif alt="ghost" width="500" height"500">
+<img src="docs/img/ghost.gif" alt="ghost" width="500" height="500" />
 
 ![Java](https://img.shields.io/badge/Java_21-ED8B00?style=flat-square&logo=openjdk&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
