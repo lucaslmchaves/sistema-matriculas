@@ -93,7 +93,7 @@ acessa o sistema com login e senha.
 - Disciplinas com menos de 3 alunos inscritos são canceladas automaticamente.
 - Disciplinas com 3 ou mais alunos ficam confirmadas para o semestre.
 
-### Sistema de Cobrança
+### Sistema externo
 
 #### Notificar sistema de cobrança
 
