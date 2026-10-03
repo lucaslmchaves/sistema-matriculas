@@ -41,7 +41,7 @@ public class ServicoMatricula {
         if (aluno == null || disciplina == null || tipo == null) {
             throw new RegraDeNegocioException("Aluno, disciplina e tipo de matrícula são obrigatórios.");
         }
-        validarDisciplinaDoPeriodo(disciplina);
+        exigirDisciplinaOfertada(disciplina);
         if (possuiMatriculaAtiva(aluno, disciplina)) {
             throw new RegraDeNegocioException("O aluno já possui matrícula ativa nesta disciplina.");
         }
@@ -73,7 +73,8 @@ public class ServicoMatricula {
         return matricula.cancelar();
     }
 
-    private void validarDisciplinaDoPeriodo(Disciplina disciplina) {
+    /** Confere se a disciplina está no período aberto e não foi cancelada; devolve a própria disciplina. */
+    private Disciplina exigirDisciplinaOfertada(Disciplina disciplina) {
         if (!periodo.isAberto()) {
             throw new RegraDeNegocioException("O período de matrículas não está aberto.");
         }
@@ -83,6 +84,7 @@ public class ServicoMatricula {
         if (disciplina.getStatus() == StatusDisciplina.CANCELADA) {
             throw new RegraDeNegocioException("Não é possível matricular-se em uma disciplina cancelada.");
         }
+        return disciplina;
     }
 
     private boolean possuiMatriculaAtiva(Aluno aluno, Disciplina disciplina) {

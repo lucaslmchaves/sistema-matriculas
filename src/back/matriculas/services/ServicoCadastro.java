@@ -81,24 +81,28 @@ public class ServicoCadastro {
         return Collections.unmodifiableList(professores);
     }
 
-    /** Recoloca um curso lido do arquivo, sem repetir as validações do cadastro. */
-    public void restaurarCurso(Curso curso) {
-        if (curso != null && !cursos.contains(curso)) {
-            cursos.add(curso);
+    /** Recoloca um curso lido do arquivo, sem repetir as validações do cadastro. Devolve false se for nulo ou repetido. */
+    public boolean restaurarCurso(Curso curso) {
+        if (curso == null || cursos.contains(curso)) {
+            return false;
         }
+        return cursos.add(curso);
     }
 
-    /** Recoloca um professor lido do arquivo, sem repetir as validações do cadastro. */
-    public void restaurarProfessor(Professor professor) {
-        if (professor != null && !professores.contains(professor)) {
-            professores.add(professor);
+    /** Recoloca um professor lido do arquivo, sem repetir as validações do cadastro. Devolve false se for nulo ou repetido. */
+    public boolean restaurarProfessor(Professor professor) {
+        if (professor == null || professores.contains(professor)) {
+            return false;
         }
+        return professores.add(professor);
     }
 
-    /** Esvazia as listas deste serviço (usado antes de recarregar os arquivos). */
-    public void limpar() {
+    /** Esvazia as listas deste serviço (usado antes de recarregar os arquivos). Devolve quantos itens foram removidos. */
+    public int limpar() {
+        int removidos = cursos.size() + professores.size();
         cursos.clear();
         professores.clear();
+        return removidos;
     }
 
     public Curso buscarCursoPorNome(String nome) {

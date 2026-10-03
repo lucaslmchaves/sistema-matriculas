@@ -25,7 +25,7 @@ public class PeriodoMatricula {
     }
 
     /** Oferta uma disciplina no período. Só vale com o período fechado e a disciplina já com professor. */
-    public void adicionarDisciplina(Disciplina disciplina) {
+    public boolean adicionarDisciplina(Disciplina disciplina) {
         if (disciplina == null) {
             throw new RegraDeNegocioException("Disciplina não pode ser nula.");
         }
@@ -38,7 +38,7 @@ public class PeriodoMatricula {
         if (disciplinas.contains(disciplina)) {
             throw new RegraDeNegocioException("A disciplina já foi adicionada a este período.");
         }
-        disciplinas.add(disciplina);
+        return disciplinas.add(disciplina);
     }
 
     public List<Disciplina> getDisciplinas() {
@@ -95,8 +95,11 @@ public class PeriodoMatricula {
         return dataFim;
     }
 
-    /** Devolve o período ao estado salvo em arquivo, sem passar pelas regras de abrir/encerrar. */
-    public void restaurar(LocalDate dataInicio, LocalDate dataFim, boolean aberto, List<Disciplina> disciplinasRestauradas) {
+    /**
+     * Devolve o período ao estado salvo em arquivo, sem passar pelas regras de abrir/encerrar.
+     * Devolve quantas disciplinas voltaram para o período.
+     */
+    public int restaurar(LocalDate dataInicio, LocalDate dataFim, boolean aberto, List<Disciplina> disciplinasRestauradas) {
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
         this.aberto = aberto;
@@ -104,12 +107,18 @@ public class PeriodoMatricula {
         if (disciplinasRestauradas != null) {
             this.disciplinas.addAll(disciplinasRestauradas);
         }
+        return this.disciplinas.size();
     }
 
-    private void cancelarDisciplina(Disciplina disciplina) {
+    /** Cancela a disciplina e as matrículas ativas dela. Devolve quantas matrículas foram canceladas. */
+    private int cancelarDisciplina(Disciplina disciplina) {
         disciplina.setStatus(StatusDisciplina.CANCELADA);
+        int canceladas = 0;
         for (Matricula matricula : disciplina.matriculasAtivas()) {
-            matricula.cancelar();
+            if (matricula.cancelar()) {
+                canceladas++;
+            }
         }
+        return canceladas;
     }
 }

@@ -6,15 +6,13 @@ public class Professor extends Usuario {
 
     public Professor(String nome, String login, String senha) {
         super(login, senha);
-        Validacao.texto(nome, "Nome do professor");
-        this.nome = nome.trim();
+        this.nome = Validacao.texto(nome, "Nome do professor");
     }
 
     /** Construtor usado ao carregar do arquivo, onde a senha já está em hash. */
     public Professor(String nome, String login, String senhaCriptografada, boolean jaCriptografada) {
         super(login, senhaCriptografada, jaCriptografada);
-        Validacao.texto(nome, "Nome do professor");
-        this.nome = nome.trim();
+        this.nome = Validacao.texto(nome, "Nome do professor");
     }
 
     public String getNome() {

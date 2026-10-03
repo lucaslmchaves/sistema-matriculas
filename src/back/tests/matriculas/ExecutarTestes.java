@@ -3,6 +3,7 @@ package matriculas;
 import matriculas.models.DisciplinaTest;
 import matriculas.models.MatriculaTest;
 import matriculas.models.PeriodoMatriculaTest;
+import matriculas.models.RetornosDoDominioTest;
 import matriculas.models.UsuarioTest;
 import matriculas.persistencia.PersistenciaTest;
 import matriculas.services.ServicoCadastroTest;
@@ -25,6 +26,7 @@ public class ExecutarTestes {
         executarTeste("DisciplinaTest", DisciplinaTest::executar);
         executarTeste("MatriculaTest", MatriculaTest::executar);
         executarTeste("PeriodoMatriculaTest", PeriodoMatriculaTest::executar);
+        executarTeste("RetornosDoDominioTest", RetornosDoDominioTest::executar);
         executarTeste("ServicoCadastroTest", ServicoCadastroTest::executar);
         executarTeste("ServicoMatriculaTest", ServicoMatriculaTest::executar);
         executarTeste("SistemaCobrancaExternoTest", SistemaCobrancaExternoTest::executar);

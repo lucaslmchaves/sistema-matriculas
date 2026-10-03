@@ -68,15 +68,18 @@ public class Matricula {
         return Collections.unmodifiableList(matriculas);
     }
 
-    /** Adiciona uma matrícula ao registro geral. */
-    public static void registrar(Matricula matricula) {
-        if (matricula != null && !matriculas.contains(matricula)) {
-            matriculas.add(matricula);
+    /** Adiciona uma matrícula ao registro geral. Devolve false se ela for nula ou já estiver lá. */
+    public static boolean registrar(Matricula matricula) {
+        if (matricula == null || matriculas.contains(matricula)) {
+            return false;
         }
+        return matriculas.add(matricula);
     }
 
-    /** Esvazia o registro (usado antes de recarregar os arquivos e nos testes). */
-    public static void limparRegistro() {
+    /** Esvazia o registro (usado antes de recarregar os arquivos e nos testes). Devolve quantas foram removidas. */
+    public static int limparRegistro() {
+        int removidas = matriculas.size();
         matriculas.clear();
+        return removidas;
     }
 }

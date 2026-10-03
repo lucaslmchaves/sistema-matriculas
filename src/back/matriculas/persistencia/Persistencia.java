@@ -67,8 +67,8 @@ public class Persistencia {
 
     // ---------- salvar ----------
 
-    /** Grava todos os dados nos arquivos. Cada arquivo é substituído por inteiro. */
-    public void salvar(ServicoCadastro servicoCadastro, PeriodoMatricula periodo) {
+    /** Grava todos os dados nos arquivos. Cada arquivo é substituído por inteiro. Devolve a pasta onde gravou. */
+    public Path salvar(ServicoCadastro servicoCadastro, PeriodoMatricula periodo) {
         try {
             Files.createDirectories(diretorio);
             salvarArquivoAtomico(ARQUIVO_CURSOS, linhasCursos(servicoCadastro));
@@ -77,6 +77,7 @@ public class Persistencia {
             salvarArquivoAtomico(ARQUIVO_DISCIPLINAS, linhasDisciplinas());
             salvarArquivoAtomico(ARQUIVO_MATRICULAS, linhasMatriculas());
             salvarArquivoAtomico(ARQUIVO_PERIODO, linhasPeriodo(periodo));
+            return diretorio;
         } catch (IOException e) {
             throw new IllegalStateException("Erro ao persistir dados no diretório: " + diretorio, e);
         }
@@ -148,9 +149,9 @@ public class Persistencia {
 
     /**
      * Escreve em um arquivo temporário e só depois troca pelo definitivo, para que uma
-     * falha no meio da escrita não deixe o arquivo de dados pela metade.
+     * falha no meio da escrita não deixe o arquivo de dados pela metade. Devolve o caminho do arquivo gravado.
      */
-    private void salvarArquivoAtomico(String nomeArquivo, List<String> linhas) throws IOException {
+    private Path salvarArquivoAtomico(String nomeArquivo, List<String> linhas) throws IOException {
         Path destino = diretorio.resolve(nomeArquivo);
         Path temporario = Files.createTempFile(diretorio, nomeArquivo, ".tmp");
         try {
@@ -163,6 +164,7 @@ public class Persistencia {
         } finally {
             Files.deleteIfExists(temporario);
         }
+        return destino;
     }
 
     // ---------- carregar ----------
@@ -193,30 +195,42 @@ public class Persistencia {
         }
     }
 
-    private void carregarCursos(ServicoCadastro servicoCadastro) throws IOException {
+    // Cada carregarXxx devolve quantos registros leu do arquivo.
+
+    private int carregarCursos(ServicoCadastro servicoCadastro) throws IOException {
+        int carregados = 0;
         for (Linha linha : lerLinhas(ARQUIVO_CURSOS, 2)) {
             try {
                 int creditos = Integer.parseInt(linha.campo(1));
                 servicoCadastro.restaurarCurso(new Curso(linha.campo(0), creditos));
+                carregados++;
             } catch (NumberFormatException e) {
                 throw linha.malformada(e);
             }
         }
+        return carregados;
     }
 
-    private void carregarProfessores(ServicoCadastro servicoCadastro) throws IOException {
+    private int carregarProfessores(ServicoCadastro servicoCadastro) throws IOException {
+        int carregados = 0;
         for (Linha linha : lerLinhas(ARQUIVO_PROFESSORES, 3)) {
             servicoCadastro.restaurarProfessor(new Professor(linha.campo(0), linha.campo(1), linha.campo(2), true));
+            carregados++;
         }
+        return carregados;
     }
 
-    private void carregarAlunos() throws IOException {
+    private int carregarAlunos() throws IOException {
+        int carregados = 0;
         for (Linha linha : lerLinhas(ARQUIVO_ALUNOS, 4)) {
             Aluno.registrar(new Aluno(linha.campo(0), linha.campo(1), linha.campo(2), linha.campo(3), true));
+            carregados++;
         }
+        return carregados;
     }
 
-    private void carregarDisciplinas(ServicoCadastro servicoCadastro) throws IOException {
+    private int carregarDisciplinas(ServicoCadastro servicoCadastro) throws IOException {
+        int carregados = 0;
         for (Linha linha : lerLinhas(ARQUIVO_DISCIPLINAS, 4)) {
             StatusDisciplina status;
             try {
@@ -240,10 +254,13 @@ public class Persistencia {
                 curso.adicionarDisciplina(disciplina);
             }
             Disciplina.registrar(disciplina);
+            carregados++;
         }
+        return carregados;
     }
 
-    private void carregarMatriculas(ServicoCadastro servicoCadastro) throws IOException {
+    private int carregarMatriculas(ServicoCadastro servicoCadastro) throws IOException {
+        int carregados = 0;
         for (Linha linha : lerLinhas(ARQUIVO_MATRICULAS, 5)) {
             LocalDate data;
             TipoMatricula tipo;
@@ -268,7 +285,9 @@ public class Persistencia {
             Matricula matricula = new Matricula(data, tipo, status, aluno, disciplina);
             Matricula.registrar(matricula);
             aluno.adicionarMatricula(matricula);
+            carregados++;
         }
+        return carregados;
     }
 
     private PeriodoMatricula carregarPeriodo(ServicoCadastro servicoCadastro) throws IOException {

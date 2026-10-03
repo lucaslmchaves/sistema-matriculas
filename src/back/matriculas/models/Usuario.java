@@ -17,10 +17,8 @@ public abstract class Usuario {
 
     /** Cria um usuário novo a partir da senha digitada, que é convertida em hash. */
     protected Usuario(String login, String senha) {
-        validarLogin(login);
-        validarSenha(senha);
-        this.login = login.trim();
-        this.senha = gerarHash(senha);
+        this.login = Validacao.texto(login, "Login");
+        this.senha = gerarHash(validarSenha(senha));
     }
 
     /**
@@ -28,11 +26,10 @@ public abstract class Usuario {
      * recebido já é o hash e é guardado como está.
      */
     protected Usuario(String login, String senhaCriptografada, boolean jaCriptografada) {
-        validarLogin(login);
+        this.login = Validacao.texto(login, "Login");
         if (senhaCriptografada == null || senhaCriptografada.trim().isEmpty()) {
             throw new RegraDeNegocioException("Senha criptografada não pode ser nula ou vazia.");
         }
-        this.login = login.trim();
         this.senha = jaCriptografada ? senhaCriptografada : gerarHash(senhaCriptografada);
     }
 
@@ -75,14 +72,11 @@ public abstract class Usuario {
         }
     }
 
-    private static void validarLogin(String login) {
-        Validacao.texto(login, "Login");
-    }
-
-    private static void validarSenha(String senha) {
+    /** Confere o tamanho mínimo e os caracteres da senha e devolve a própria senha. */
+    private static String validarSenha(String senha) {
         if (senha == null || senha.length() < 4) {
             throw new RegraDeNegocioException("A senha deve conter no mínimo 4 caracteres.");
         }
-        Validacao.semSeparadores(senha, "A senha");
+        return Validacao.semSeparadores(senha, "A senha");
     }
 }

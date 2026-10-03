@@ -16,23 +16,23 @@ public class Curso {
     private final List<Disciplina> disciplinas;
 
     public Curso(String nome, int numeroCreditos) {
-        Validacao.texto(nome, "Nome do curso");
+        this.nome = Validacao.texto(nome, "Nome do curso");
         if (numeroCreditos <= 0) {
             throw new RegraDeNegocioException("Número de créditos deve ser maior que zero.");
         }
-        this.nome = nome.trim();
         this.numeroCreditos = numeroCreditos;
         this.disciplinas = new ArrayList<>();
     }
 
-    /** Liga uma disciplina ao curso (ignora se ela já estiver na lista). */
-    public void adicionarDisciplina(Disciplina disciplina) {
+    /** Liga uma disciplina ao curso. Devolve false se ela já estava na lista. */
+    public boolean adicionarDisciplina(Disciplina disciplina) {
         if (disciplina == null) {
             throw new RegraDeNegocioException("Disciplina não pode ser nula.");
         }
-        if (!disciplinas.contains(disciplina)) {
-            disciplinas.add(disciplina);
+        if (disciplinas.contains(disciplina)) {
+            return false;
         }
+        return disciplinas.add(disciplina);
     }
 
     public List<Disciplina> getDisciplinas() {

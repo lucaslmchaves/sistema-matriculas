@@ -25,8 +25,7 @@ public class Disciplina {
     private Curso curso;
 
     public Disciplina(String nome) {
-        Validacao.texto(nome, "Nome da disciplina");
-        this.nome = nome.trim();
+        this.nome = Validacao.texto(nome, "Nome da disciplina");
         this.status = StatusDisciplina.EM_ABERTO;
     }
 
@@ -74,11 +73,14 @@ public class Disciplina {
         return quantidadeMatriculados() >= NUMERO_MINIMO_ALUNOS;
     }
 
-    public void atribuirProfessor(Professor professor) {
+    /** Define o professor da disciplina. Devolve false se ele já era o professor dela. */
+    public boolean atribuirProfessor(Professor professor) {
         if (professor == null) {
             throw new RegraDeNegocioException("Professor não pode ser nulo.");
         }
+        boolean mudou = !professor.equals(this.professor);
         this.professor = professor;
+        return mudou;
     }
 
     public String getNome() {
@@ -89,12 +91,14 @@ public class Disciplina {
         return status;
     }
 
-    /** Só o período de matrículas (mesmo pacote) confirma ou cancela uma disciplina. */
-    void setStatus(StatusDisciplina status) {
+    /** Só o período de matrículas (mesmo pacote) confirma ou cancela uma disciplina. Devolve false se o status não mudou. */
+    boolean setStatus(StatusDisciplina status) {
         if (status == null) {
             throw new RegraDeNegocioException("Status da disciplina não pode ser nulo.");
         }
+        boolean mudou = this.status != status;
         this.status = status;
+        return mudou;
     }
 
     public Professor getProfessor() {
@@ -110,16 +114,19 @@ public class Disciplina {
         return Collections.unmodifiableList(disciplinas);
     }
 
-    /** Adiciona uma disciplina ao registro geral. */
-    public static void registrar(Disciplina disciplina) {
-        if (disciplina != null && !disciplinas.contains(disciplina)) {
-            disciplinas.add(disciplina);
+    /** Adiciona uma disciplina ao registro geral. Devolve false se ela for nula ou já estiver lá. */
+    public static boolean registrar(Disciplina disciplina) {
+        if (disciplina == null || disciplinas.contains(disciplina)) {
+            return false;
         }
+        return disciplinas.add(disciplina);
     }
 
-    /** Esvazia o registro (usado antes de recarregar os arquivos e nos testes). */
-    public static void limparRegistro() {
+    /** Esvazia o registro (usado antes de recarregar os arquivos e nos testes). Devolve quantas foram removidas. */
+    public static int limparRegistro() {
+        int removidas = disciplinas.size();
         disciplinas.clear();
+        return removidas;
     }
 
     /** Matrículas ativas desta disciplina; base para contar vagas e listar alunos. */
