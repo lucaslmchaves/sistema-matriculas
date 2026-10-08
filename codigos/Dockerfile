@@ -7,8 +7,9 @@ RUN apk upgrade --no-cache --available
 WORKDIR /app
 COPY src/ ./src/
 
+# Cria a pasta out e encontra todos os .java, EXCLUINDO a pasta de testes
 RUN mkdir out && \
-    find src -name "*.java" > sources.txt && \
+    find src -name "*.java" ! -path "src/test/*" > sources.txt && \
     javac -d out @sources.txt
 
 # Estágio 2: Execução (Produção)
