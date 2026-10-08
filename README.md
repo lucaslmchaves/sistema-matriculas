@@ -74,7 +74,7 @@ O sistema foi desenhado utilizando **Clean Architecture** e princípios **SOLID*
 
 ## 🏛️ Diagrama de Classes (Arquitetura)
 
-![Diagrama de Classes do Sistema de Matrículas](docs/diagramas/sprint3-diagrama-classe.png)
+![Diagrama de Classes do Sistema de Matrículas](docs/diagramas/sprint3-diagrama-de-classes-console.svg)
 
 ---
 
@@ -88,9 +88,10 @@ SISTEMA-MATRICULAS/
 ├── docs/                    # Diagramas e documentações das sprints
 ├── docker-compose.yml       # Orquestração do container interativo
 ├── Dockerfile               # Multi-stage build (Temurin JDK 21 -> JRE)
-└── src/matriculas/
+└── src/
     ├── domain/              # Núcleo duro: Entidades (Aluno, Disciplina) e Enums
     ├── application/         # Casos de Uso: ServicoMatricula, ServicoAcademico
     ├── infrastructure/      # Repositórios (BancoDeDados, CsvLoader) e Mock Cobrança
     ├── presentation/        # Interface CLI: Visitor, Cores ANSI, Menus Interativos
-    └── Main.java            # Bootstrapper (Inicializador e Injeção de Dependências)
+    ├── Main.java            # Bootstrapper (Inicializador e Injeção de Dependências)
+    └──Test/
