@@ -21,4 +21,4 @@ WORKDIR /app
 COPY --from=builder /app/out ./out
 COPY dados/ ./dados/
 
-CMD ["java", "-cp", "out", "matriculas.Main"]
+CMD ["java", "-cp", "out", "Main"]
