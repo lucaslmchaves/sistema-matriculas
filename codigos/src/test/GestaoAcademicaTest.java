@@ -4,10 +4,11 @@ import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
-import module java.base;
 import application.services.ServicoAcademico;
 import domain.entities.*;
 import infrastructure.BancoDeDados;
